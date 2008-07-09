@@ -1,32 +1,28 @@
 = static_model
 
-* FIX (url)
+http://github.com/quirkey/static_model/
 
 == DESCRIPTION:
 
-FIX (describe your package)
-
-== FEATURES/PROBLEMS:
-
-* FIX (list of features or problems)
+ActiveRecord like functionalities for reading from YAML with a simple class implementation
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  Use like ActiveRecord::Base, except no database, just a YAML file. The YAML should contain an array of records.
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+	YAML 
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+	sudo gem install static_model 
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2008 FIX
+Copyright (c) 2008 Aaron Quint, Quirkey NYC, LLC
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

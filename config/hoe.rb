@@ -2,7 +2,7 @@ require 'static_model/version'
 
 AUTHOR = 'Aaron Quint'  # can also be an array of Authors
 EMAIL = "aaron@quirkey.com"
-DESCRIPTION = "ActiveRecord like functionalities for reading from YAML with a simple class implemenation"
+DESCRIPTION = "ActiveRecord like functionalities for reading from YAML with a simple class implementation"
 GEM_NAME = 'static_model' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'quirkey' # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
