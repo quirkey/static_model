@@ -1,0 +1,18 @@
+---
+  - id: 1
+    title: The Omnivore's Dilemma
+    author: Michael Pollan
+    genre: Non-Fiction
+  - id: 2
+    title: In Defense of Food
+    author: Michael Pollan
+    genre: Non-Fiction
+  - id: 3
+    title: Omnivore (Of Man and Manta)
+    author: Piers Anthony
+    genre: Fantasy
+  - id: 4
+    title: Choke
+    author: Chuck Palahniuk 
+    genre: Humor
+    
