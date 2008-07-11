@@ -93,6 +93,7 @@ module StaticModel
       end
     
       def count
+        load
         @@records.length
       end
 
