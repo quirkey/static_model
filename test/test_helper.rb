@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'rubygems'
 require 'shoulda'
+require 'mocha'
 
 require File.dirname(__FILE__) + '/../lib/static_model'
 
@@ -8,10 +9,25 @@ class Book < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'books.yml')
 end
 
+unless defined?(ActiveRecord::Base)
+  module ActiveRecord
+    class Base
+      def self.scoped(*args)
+      end
+    end
+  end
+end
+
+class Article < ActiveRecord::Base
+end
+
 class Author < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'authors.yml')
   has_many :books
+  has_many :articles
 end
+
+
 
 class Test::Unit::TestCase
   

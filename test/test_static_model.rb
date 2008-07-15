@@ -203,30 +203,6 @@ class TestStaticModel < Test::Unit::TestCase
         end
 
       end
-
-      context "a class with associations" do
-
-        context "an instance" do
-
-          setup do
-            @author = Author.find(1)
-          end
-
-          should "respond to association name" do
-            assert @author.books
-          end
-
-          should "return an array of association instances if association is a StaticModel" do
-            assert_set_of Book, @author.books
-          end
-          
-          should "find books by foreign_key" do
-            assert_equal Book.find_all_by_author_id(@author.id), @author.books
-          end
-
-        end
-
-      end
     end
   end
 
