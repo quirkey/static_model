@@ -21,6 +21,14 @@ class TestStaticModel < Test::Unit::TestCase
         should "find books by foreign_key" do
           assert_equal Book.find_all_by_author_id(@author.id), @author.books
         end
+        
+        should "add association to associations" do
+          assert Author.associations.has_key?(:books)
+        end
+        
+        should "have HasManyAssociation in associations" do
+          assert Author.associations[:books].is_a?(StaticModel::Associations::HasManyAssociation)
+        end
       end
 
       context "to an active record model" do
