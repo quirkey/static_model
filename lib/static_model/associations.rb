@@ -12,7 +12,7 @@ module StaticModel
       end
 
       def has_many(association_name, options = {})
-        self.associations[association_name.to_sym] = HasManyAssociation.new(self, association_name.to_sym, {:foreign_key => "#{self.to_s.downcase}_id"}.merge(options))
+        self.associations[association_name.to_sym] = HasManyAssociation.new(self, association_name.to_sym, {:foreign_key => "#{self.to_s.foreign_key}"}.merge(options))
       end 
 
     end
@@ -25,7 +25,7 @@ module StaticModel
         @klass = klass
         @name = name
         @options = options
-        @reflection_class = Object.const_get(@options[:class_name] || @name.to_s.gsub(/s$/,'').capitalize)
+        @reflection_class = Object.const_get(@options[:class_name] || @name.to_s.classify)
         @foreign_key = @options[:foreign_key]
         define_association_methods
       end

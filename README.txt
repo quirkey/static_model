@@ -13,6 +13,7 @@ ActiveRecord like functionalities for reading from YAML with a simple class impl
 == REQUIREMENTS:
 
 	YAML 
+	activesupport >= 2.1.0
 
 == INSTALL:
 
