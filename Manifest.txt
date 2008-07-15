@@ -7,10 +7,13 @@ config/hoe.rb
 config/requirements.rb
 lib/static_model.rb
 lib/static_model/base.rb
+lib/static_model/associations.rb
 lib/static_model/errors.rb
 lib/static_model/rails.rb
 lib/static_model/version.rb
 setup.rb
 test/books.yml
+test/authors.yml
 test/test_helper.rb
 test/test_static_model.rb
+test/test_static_model_associations.rb
