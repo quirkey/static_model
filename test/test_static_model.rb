@@ -70,13 +70,13 @@ class TestStaticModel < Test::Unit::TestCase
             end
           end
         end
-        
+
         context "[]" do
           should "be an alias for find by id" do
             assert_equal Book.find(1), Book[1]
           end
         end
-        
+
         context "find(:all)" do
           should "be an alias for find_all" do
             assert_equal Book.find_all, Book.find(:all)
@@ -195,15 +195,38 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal Book.find_all_by(:genre, 'Non-Fiction'), Book.find_all_by_genre('Non-Fiction')
           end
         end
-        
+
         context "count" do
           should "return the count of all records" do
             assert_equal Book.all.length, Book.count
           end
         end
-        
+
       end
-    
+
+      context "a class with associations" do
+
+        context "an instance" do
+
+          setup do
+            @author = Author.find(1)
+          end
+
+          should "respond to association name" do
+            assert @author.books
+          end
+
+          should "return an array of association instances if association is a StaticModel" do
+            assert_set_of Book, @author.books
+          end
+          
+          should "find books by foreign_key" do
+            assert_equal Book.find_all_by_author_id(@author.id), @author.books
+          end
+
+        end
+
+      end
     end
   end
 
@@ -211,4 +234,6 @@ class TestStaticModel < Test::Unit::TestCase
   def book_params
     {:id => 15, :title => 'Lord of the Rings', :author => 'J.R. Tolkien', :genre => 'Fantasy'}
   end
+  
+
 end

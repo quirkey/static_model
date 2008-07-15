@@ -1,5 +1,6 @@
 module StaticModel  
   class Base
+    include StaticModel::Associations
 
     @@load_path = File.join('config', 'data')
 
@@ -39,8 +40,7 @@ module StaticModel
       end
 
       def find_by_id(id)
-        load
-        record = @@records.detect {|r| r.id == id }
+        record = records.detect {|r| r.id == id }
         raise(StaticModel::RecordNotFound, "Could not find record with id = #{id}") unless record
         record
       end
@@ -50,51 +50,51 @@ module StaticModel
       end
 
       def find_all
-        load
-        @@records
+        records
       end
       alias_method :all, :find_all
 
       def find_first
-        load
-        @@records[0]
+        records[0]
       end
       alias_method :first, :find_first
 
       def find_all_by(attribute, value)
-        load
-        records = @@records.find_all {|r| r.send(attribute) == value }
+        records.find_all {|r| r.send(attribute) == value }
       end
 
       def find_first_by(attribute, value)
-        load
-        records = @@records.find {|r| r.send(attribute) == value }
+        records.find {|r| r.send(attribute) == value }
       end
 
       def load(reload = false)
         return if loaded? && !reload
         raise(StaticModel::DataFileNotFound, "You must set a data file to load from") unless File.readable?(data_file) 
         records = YAML::load_file(data_file)
-        @@records = records.dup.collect {|r| new(r) }
-        @@loaded = true
+        @records = records.dup.collect {|r| new(r) }
+        @loaded = true
       end
 
       def loaded?
-        @@loaded ||= false
+        @loaded ||= false
       end
 
       def data_file
-        @@data_file ||= default_data_file_path
+        @data_file ||= default_data_file_path
       end
 
       def set_data_file(file_path)
         raise(StaticModel::DataFileNotFound, "Could not find data file #{file_path}") unless File.readable?(file_path)
-        @@data_file = file_path
+        @data_file = file_path
       end
     
       def count
+        records.length
+      end
+      
+      def records
         load
-        @@records.length
+        @records
       end
 
       protected

@@ -3,5 +3,6 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'yaml'
 require 'static_model/errors'
+require 'static_model/associations'
 require 'static_model/base'
 require 'static_model/rails'
