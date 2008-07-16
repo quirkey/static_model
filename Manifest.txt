@@ -9,6 +9,7 @@ lib/static_model.rb
 lib/static_model/base.rb
 lib/static_model/associations.rb
 lib/static_model/active_record.rb
+lib/static_model/comparable.rb
 lib/static_model/errors.rb
 lib/static_model/rails.rb
 lib/static_model/version.rb

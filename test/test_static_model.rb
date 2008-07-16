@@ -40,6 +40,21 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal @book.inspect, @book.to_s
           end
         end
+        
+        context "comparing" do
+          
+          should "be equal to an instance of the same class with same id" do
+            assert_equal @book, Book.new(book_params)
+          end
+          
+          should "not be equal to an instance with the same class with different ids" do
+            assert_not_equal Book[1], @book
+          end
+          
+          should "not be equal to an instance with different classes and the same ids" do
+            assert_not_equal Book[1], Author[1]
+          end
+        end
 
       end
 
