@@ -86,6 +86,9 @@ module StaticModel
       def set_data_file(file_path)
         raise(StaticModel::DataFileNotFound, "Could not find data file #{file_path}") unless File.readable?(file_path)
         @data_file = file_path
+        # force reload
+        @loaded = false
+        @records = nil
       end
     
       def count

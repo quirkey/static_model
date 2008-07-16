@@ -44,6 +44,32 @@ class TestStaticModel < Test::Unit::TestCase
       end
 
       context "on the class" do
+        context "set data file" do
+          context "After the class is defined" do
+            
+            setup do
+              @book = Book.find(1)
+              @author = Author.find(1)
+              @original_data_file = Book.data_file
+              @data_file = File.join(File.dirname(__FILE__), 'authors.yml')
+              Book.set_data_file @data_file
+              @new_book = Book.find(1)
+            end
+            
+            should "set the @data_file" do
+              assert_equal @data_file, Book.data_file
+            end
+                        
+            should "reload with next find" do
+              assert @author.attributes, @new_book.attributes
+            end
+            
+            teardown do
+              Book.set_data_file @original_data_file
+            end
+          end
+        end
+        
         context "find" do
 
           context "with an integer" do
