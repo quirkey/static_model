@@ -1,7 +1,8 @@
 module StaticModel  
   class Base
     include StaticModel::Associations
-
+    include StaticModel::ActiveRecord
+    
     @@load_path = File.join('config', 'data')
 
     attr_reader :id
