@@ -29,16 +29,24 @@ class TestStaticModel < Test::Unit::TestCase
         should "have HasManyAssociation in associations" do
           assert Author.associations[:books].is_a?(StaticModel::Associations::HasManyAssociation)
         end
+        
+        should "return an association proxy" do
+          assert @author.books.is_association_proxy?
+        end
       end
 
       context "to an active record model" do
         setup do
           @author = Author.find(1)
-          Article.expects(:scoped).returns([Article.new, Article.new])
+          Article.expects(:with_scope).returns([Article.new, Article.new])
         end
 
         should "respond to association name" do
           assert @author.articles
+        end
+
+        should "return an association proxy" do
+          assert @author.articles.is_association_proxy?
         end
 
         should "return an array of association instances if association is a StaticModel" do

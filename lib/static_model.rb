@@ -5,6 +5,7 @@ require 'yaml'
 
 require 'active_support/inflector'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/module/delegation'
 
 require 'static_model/errors'
 require 'static_model/associations'
