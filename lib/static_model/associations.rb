@@ -38,16 +38,16 @@ module StaticModel
     class HasManyAssociation < Association
 
       def define_association_methods
-        if @reflection_class.respond_to?(:scoped)
-          @klass.module_eval <<-EOT
-            def #{@name}
-              #{@reflection_class}.scoped(:conditions => {:#{@foreign_key} => id})
+        if reflection_klass.respond_to?(:scoped)
+          klass.module_eval <<-EOT
+            def #{name}
+              #{reflection_klass}.scoped(:conditions => {:#{foreign_key} => id})
             end
           EOT
         else
-          @klass.module_eval <<-EOT
-          def #{@name}
-            #{@reflection_class}.send(:find_all_by_#{@foreign_key}, id)
+          klass.module_eval <<-EOT
+          def #{name}
+            #{reflection_klass}.send(:find_all_by_#{foreign_key}, id)
           end
           EOT
         end
