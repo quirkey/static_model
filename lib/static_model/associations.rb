@@ -19,13 +19,13 @@ module StaticModel
 
 
     class Association
-      attr_reader :klass, :name, :options
+      attr_reader :klass, :name, :options, :reflection_klass, :foreign_key
 
       def initialize(klass, name, options = {})
         @klass = klass
         @name = name
         @options = options
-        @reflection_class = Object.const_get(@options[:class_name] || @name.to_s.classify)
+        @reflection_klass = Object.const_get(@options[:class_name] || @name.to_s.classify)
         @foreign_key = @options[:foreign_key]
         define_association_methods
       end
@@ -33,7 +33,6 @@ module StaticModel
       def define_association_methods
         raise 'Should only use descendants of Association'
       end
-
     end
 
     class HasManyAssociation < Association
