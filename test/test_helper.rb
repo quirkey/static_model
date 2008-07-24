@@ -21,11 +21,19 @@ end
 class Article < ActiveRecord::Base
 end
 
+class Publisher < StaticModel::Base
+  set_data_file File.join(File.dirname(__FILE__), 'publishers.yml')
+  
+  has_many :authors
+end
+
 class Author < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'authors.yml')
   has_many :books
   has_many :articles
+  belongs_to :publisher
 end
+
 
 
 
