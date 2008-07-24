@@ -16,6 +16,7 @@ lib/static_model/version.rb
 setup.rb
 test/books.yml
 test/authors.yml
+test/publishers.yml
 test/test_helper.rb
 test/test_static_model.rb
 test/test_static_model_associations.rb

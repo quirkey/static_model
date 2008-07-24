@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 
-class TestStaticModel < Test::Unit::TestCase
+class TestStaticModelAssociations < Test::Unit::TestCase
 
   context "a static model class" do
 
