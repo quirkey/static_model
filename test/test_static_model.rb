@@ -194,6 +194,28 @@ class TestStaticModel < Test::Unit::TestCase
             end
           end
         end
+        
+        context "find_by" do
+          setup do
+            @author = 'Michael Pollan'
+            @book = Book.find_by(:author,@author)
+          end
+
+          should "return an instance of klass" do
+            assert @book.is_a?(Book)
+          end
+
+          should "return record matching search" do
+            assert @author, @book.author
+          end
+
+          context "when there is no match" do
+            should "return nil" do
+              assert_nil Book.find_by(:author,'Aaron Quint')
+            end
+          end
+          
+        end
 
         context "find_all_by" do
           setup do
@@ -222,6 +244,12 @@ class TestStaticModel < Test::Unit::TestCase
             should "return an array" do
               assert_equal [Book.find(3)], Book.find_all_by(:author,'Piers Anthony')
             end
+          end
+        end
+
+       context "find_by_*attribute*" do
+          should "be equivalent to find_first_by(attribute,)" do
+            assert_equal Book.find_by(:genre, 'Non-Fiction'), Book.find_first_by_genre('Non-Fiction')
           end
         end
 

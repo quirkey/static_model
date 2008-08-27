@@ -9,7 +9,7 @@ module StaticModel
     attr_reader :id
 
     def initialize(attribute_hash = {})
-      raise(StaticModel::BadOptions, "Initializing a model is done with a Hash {}") unless attribute_hash.is_a?(Hash)
+      raise(StaticModel::BadOptions, "Initializing a model is done with a Hash {} given #{attribute_hash.inspect}") unless attribute_hash.is_a?(Hash)
       @id = attribute_hash.delete('id') || attribute_hash.delete(:id) || (self.class.count + 1)
       self.attributes = attribute_hash
     end
@@ -68,6 +68,7 @@ module StaticModel
       def find_first_by(attribute, value)
         records.find {|r| r.send(attribute) == value }
       end
+      alias_method :find_by, :find_first_by
 
       def load(reload = false)
         return if loaded? && !reload
@@ -110,8 +111,8 @@ module StaticModel
       private
       def method_missing(meth, *args)
         meth_name = meth.to_s
-        if meth_name =~ /^find_(all|first)_by_(.+)/
-          attribute_name = meth_name.gsub(/^find_(all|first)_by_/, '')
+        if meth_name =~ /^find_(all_by|first_by|by)_(.+)/
+          attribute_name = meth_name.gsub(/^find_(all_by|first_by|by)_/, '')
           finder    = meth_name.gsub(/_#{attribute_name}/, '')
           return self.send(finder, attribute_name, *args)
         end

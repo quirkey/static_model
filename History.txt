@@ -1,3 +1,9 @@
+== 0.1.0 2008-08-27
+
+* 1 minor enchancement
+	
+	* fixed the dynamic finders to match AR's behavior AKA find_by === find_first_by
+
 == 0.1.0 2008-07-09
 
 * 1 major enhancement:
