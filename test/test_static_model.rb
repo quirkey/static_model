@@ -40,17 +40,17 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal @book.inspect, @book.to_s
           end
         end
-        
+
         context "comparing" do
-          
+
           should "be equal to an instance of the same class with same id" do
             assert_equal @book, Book.new(book_params)
           end
-          
+
           should "not be equal to an instance with the same class with different ids" do
             assert_not_equal Book[1], @book
           end
-          
+
           should "not be equal to an instance with different classes and the same ids" do
             assert_not_equal Book[1], Author[1]
           end
@@ -61,7 +61,7 @@ class TestStaticModel < Test::Unit::TestCase
       context "on the class" do
         context "set data file" do
           context "After the class is defined" do
-            
+
             setup do
               @book = Book.find(1)
               @author = Author.find(1)
@@ -70,21 +70,21 @@ class TestStaticModel < Test::Unit::TestCase
               Book.set_data_file @data_file
               @new_book = Book.find(1)
             end
-            
+
             should "set the @data_file" do
               assert_equal @data_file, Book.data_file
             end
-                        
+
             should "reload with next find" do
               assert @author.attributes, @new_book.attributes
             end
-            
+
             teardown do
               Book.set_data_file @original_data_file
             end
           end
         end
-        
+
         context "find" do
 
           context "with an integer" do
@@ -194,7 +194,7 @@ class TestStaticModel < Test::Unit::TestCase
             end
           end
         end
-        
+
         context "find_by" do
           setup do
             @author = 'Michael Pollan'
@@ -214,7 +214,7 @@ class TestStaticModel < Test::Unit::TestCase
               assert_nil Book.find_by(:author,'Aaron Quint')
             end
           end
-          
+
         end
 
         context "find_all_by" do
@@ -247,21 +247,29 @@ class TestStaticModel < Test::Unit::TestCase
           end
         end
 
-       context "find_by_*attribute*" do
-          should "be equivalent to find_first_by(attribute,)" do
-            assert_equal Book.find_by(:genre, 'Non-Fiction'), Book.find_first_by_genre('Non-Fiction')
+        context "dynamic finders" do
+          setup do
+            @book = Book.first
           end
-        end
 
-        context "find_first_by_*attribute*" do
-          should "be equivalent to find_first_by(attribute,)" do
-            assert_equal Book.find_first_by(:genre, 'Non-Fiction'), Book.find_first_by_genre('Non-Fiction')
+          context "find_by_*attribute*" do
+            should "be equivalent to find_first_by(attribute,)" do
+              assert_equal @book, Book.find_first_by(:genre, 'Non-Fiction')
+              assert_equal Book.find_first_by(:genre, 'Non-Fiction'), Book.find_by_genre('Non-Fiction')
+            end
           end
-        end
 
-        context "find_all_by_*attribute*" do
-          should "be equivalent to find_all_by(attribute,)" do
-            assert_equal Book.find_all_by(:genre, 'Non-Fiction'), Book.find_all_by_genre('Non-Fiction')
+          context "find_first_by_*attribute*" do
+            should "be equivalent to find_first_by(attribute,)" do
+              assert_equal @book, Book.find_first_by(:genre, 'Non-Fiction')
+              assert_equal Book.find_first_by(:genre, 'Non-Fiction'), Book.find_first_by_genre('Non-Fiction')
+            end
+          end
+
+          context "find_all_by_*attribute*" do
+            should "be equivalent to find_all_by(attribute,)" do
+              assert_equal Book.find_all_by(:genre, 'Non-Fiction'), Book.find_all_by_genre('Non-Fiction')
+            end
           end
         end
 
@@ -279,6 +287,6 @@ class TestStaticModel < Test::Unit::TestCase
   def book_params
     {:id => 15, :title => 'Lord of the Rings', :author => 'J.R. Tolkien', :genre => 'Fantasy'}
   end
-  
+
 
 end
