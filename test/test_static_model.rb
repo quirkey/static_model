@@ -172,6 +172,23 @@ class TestStaticModel < Test::Unit::TestCase
               assert book.is_a?(Book)
             end
           end
+
+          context "with an empty data file" do
+            setup do
+              @original_data_file = Book.data_file
+              @data_file = File.join(File.dirname(__FILE__), 'empty.yml')
+              Book.set_data_file @data_file
+            end
+
+            should "return an empty array" do
+              assert_equal [], Book.find_all
+            end
+
+            teardown do
+              Book.set_data_file @original_data_file
+            end
+
+          end
         end
 
         context "find_first_by" do

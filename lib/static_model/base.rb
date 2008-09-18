@@ -74,7 +74,7 @@ module StaticModel
         return if loaded? && !reload
         raise(StaticModel::DataFileNotFound, "You must set a data file to load from") unless File.readable?(data_file) 
         records = YAML::load_file(data_file)
-        @records = records.dup.collect {|r| new(r) }
+        @records = records ? records.dup.collect {|r| new(r) } : []
         @loaded = true
       end
 
