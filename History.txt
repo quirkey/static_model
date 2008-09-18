@@ -1,3 +1,9 @@
+== 0.1.5 2008-09-18
+
+* 1 minor enhancement
+	
+	* better handling of empty YAML files (ienders)
+
 == 0.1.0 2008-08-27
 
 * 1 minor enchancement
