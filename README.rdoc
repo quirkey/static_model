@@ -1,6 +1,5 @@
 = static_model
 
-http://github.com/quirkey/static_model/
 http://quirkey.rubyforge.org/static_model/
 
 == DESCRIPTION:
@@ -9,20 +8,24 @@ ActiveRecord like functionalities for reading from YAML with a simple class impl
 
 == SYNOPSIS:
 
-  Use like ActiveRecord::Base, except no database, just a YAML file. The YAML should contain an array of records.
+Use like ActiveRecord::Base, except no database, just a YAML file. The YAML should contain an array of records.
 
-  For usage and setup check out the project's site:
+For usage and setup check out the project's site:
 
-  http://quirkey.rubyforge.org/static_model/
+http://quirkey.rubyforge.org/static_model/
 
 == REQUIREMENTS:
 
-	YAML 
-	activesupport >= 2.1.0
+YAML 
+activesupport >= 2.1.0
 
 == INSTALL:
 
 	sudo gem install static_model 
+	
+The source is at github:
+
+http://github.com/quirkey/static_model/
 
 == LICENSE:
 
