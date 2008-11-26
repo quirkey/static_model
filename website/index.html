@@ -33,49 +33,98 @@
     <h1>static_model</h1>
     <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/static_model"; return false'>
       <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/static_model" class="numbers">0.1.4</a>
+      <a href="http://rubyforge.org/projects/static_model" class="numbers">0.1.5</a>
     </div>
-    <h1>&amp;#x2192; &#8216;static_model&#8217;</h1>
-<h2>What</h2>
+    <h2>What</h2>
+<p>Static Model provides ActiveRecord like functionalities while reading from a simple <span class="caps">YAML</span> file.</p>
 <h2>Installing</h2>
 <p><pre class='syntax'><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">static_model</span></pre></p>
 <h2>The basics</h2>
+<p>There are sometimes when you need records that are completely immutable or need to travel very easily with your app. One of the problems with storing all your data in a database is that you can&#8217;t really make assumptions about certain records existing. StaticModel provides a very easy way to create models that act just like ActiveRecord, but are reading off of static <span class="caps">YAML</span> files that can exist in your app/repository.</p>
 <h2>Demonstration of usage</h2>
-<h2>Forum</h2>
-<p><a href="http://groups.google.com/group/static_model">http://groups.google.com/group/static_model</a></p>
-<p><span class="caps">TODO</span> &#8211; create Google Group &#8211; static_model</p>
-<h2>How to submit patches</h2>
-<p>Read the <a href="http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/">8 steps for fixing other people&#8217;s code</a> and for section <a href="http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups">8b: Submit patch to Google Groups</a>, use the Google Group above.</p>
-<p><span class="caps">TODO</span> &#8211; pick <span class="caps">SVN</span> or Git instructions</p>
-<p>The trunk repository is <code>svn://rubyforge.org/var/svn/static_model/trunk</code> for anonymous access.</p>
-<p><span class="caps">OOOORRRR</span></p>
-<p>You can fetch the source from either:</p>
-<ul>
-	<li>rubyforge: <span class="caps">MISSING</span> IN <span class="caps">ACTION</span></li>
-</ul>
-<p><span class="caps">TODO</span> &#8211; You can not created a RubyForge project, OR have not run <code>rubyforge config</code><br />
-yet to refresh your local rubyforge data with this projects&#8217; id information.</p>
-<p>When you do this, this message will magically disappear!</p>
-<p>Or you can hack website/index.txt and make it all go away!!</p>
-<ul>
-	<li>github: <a href="http://github.com/GITHUB_USERNAME/static_model/tree/master">http://github.com/GITHUB_USERNAME/static_model/tree/master</a></li>
-</ul>
-<pre>git clone git://github.com/GITHUB_USERNAME/static_model.git</pre>
-<p><span class="caps">TODO</span> &#8211; add &#8220;github_username: username&#8221; to ~/.rubyforge/user-config.yml and newgem will reuse it for future projects.</p>
-<ul>
-	<li>gitorious: <a href="git://gitorious.org/static_model/mainline.git">git://gitorious.org/static_model/mainline.git</a></li>
-</ul>
-<pre>git clone git://gitorious.org/static_model/mainline.git</pre>
-<h3>Build and test instructions</h3>
-<pre>cd static_model
-rake test
-rake install_gem</pre>
+<p>StaticModel is a gem and can be used in any Ruby project, but it was designed around being used in Rails. The instructions that follow are Rails specific, but to use it in any Ruby app would not be much different.</p>
+<p>The first thing to do is set up your model. In app/models/ create a model just like you would with an AR model. For example, lets create a Book model:</p>
+<p><pre class='syntax'>
+<span class="comment"># app/models/book.rb</span>
+<span class="keyword">class </span><span class="class">Book</span> <span class="punct">&lt;</span> <span class="constant">StaticModel</span><span class="punct">::</span><span class="constant">Base</span>
+
+<span class="keyword">end</span>
+</pre></p>
+<p>StaticModels descend from StaticModel::Base. Without any config, this model makes some assumptions. It assumes you have a <span class="caps">YAML</span> file in config/data/TABLE_NAME.yml. The table name is assumed to be the lower-cased plural of the model name (just like Rails DB tables). For example, for our Book model, we would have a <span class="caps">YAML</span> file config/data/books.yml. If you want the file living somewhere else, or names something completely different, just use the macro: set_data_file</p>
+<p><pre class='syntax'>
+<span class="keyword">class </span><span class="class">Book</span> <span class="punct">&lt;</span> <span class="constant">StaticModel</span><span class="punct">::</span><span class="constant">Base</span>
+	<span class="ident">set_data_file</span> <span class="punct">'</span><span class="string">/path/to/my/file/withanothername.yml</span><span class="punct">'</span>
+<span class="keyword">end</span>
+</pre></p>
+<p>The format of the <span class="caps">YAML</span> file is very simple. StaticModel just expects an array of <span class="caps">YAML</span> hashses. The only requirement is that each of these hashes has an &#8216;id&#8217; with a unique integer.</p>
+<p>For example, heres our books.yml</p>
+<p><pre class='syntax'>
+<span class="punct">-</span>--
+<span class="punct">-</span> id: 1
+  <span class="key">title</span><span class="punct">:</span> The Ruby Way
+  <span class="key">author</span><span class="punct">:</span> Hal Fulton
+<span class="punct">-</span> id: 2
+  <span class="key">title</span><span class="punct">:</span> Programming Ruby
+  <span class="key">author</span><span class="punct">:</span> Dave Thomas
+  <span class="key">publisher</span><span class="punct">:</span> Pragmatic Programmers
+</pre></p>
+<p>With this set up, we can now query our data using almost identical methods to AR.</p>
+<p><pre class='syntax'>
+<span class="punct">&gt;&gt;</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">find</span><span class="punct">(</span><span class="number">1</span><span class="punct">)</span>
+<span class="punct">=&gt;</span> <span class="comment">#&lt;Book:0x1706fd8 @attributes={:author=&gt;&quot;Hal Fulton&quot;, :title=&gt;&quot;The Ruby Way&quot;}, id1</span>
+
+<span class="punct">&gt;&gt;</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">first</span>
+<span class="punct">=&gt;</span> <span class="comment">#&lt;Book:0x1706fd8 @attributes={:author=&gt;&quot;Hal Fulton&quot;, :title=&gt;&quot;The Ruby Way&quot;}, id1</span>
+
+<span class="punct">&gt;&gt;</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">find</span><span class="punct">(</span><span class="symbol">:all</span><span class="punct">)</span> <span class="punct">(</span><span class="keyword">or</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">all</span><span class="punct">)</span>
+<span class="punct">=&gt;</span> <span class="punct">[</span><span class="comment">#&lt;Book:0x1706fd8 @attributes={:author=&gt;&quot;Hal Fulton&quot;, :title=&gt;&quot;The Ruby Way&quot;}, id1, </span>
+		<span class="comment">#&lt;Book:0x1706fc4 @attributes={:author=&gt;&quot;Dave Thomas&quot;, :title=&gt;&quot;Programming Ruby&quot;, :publisher=&gt;&quot;Pragmatic Programmers&quot;}, id2]</span>
+
+<span class="punct">&gt;&gt;</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">find_by_title</span><span class="punct">('</span><span class="string">The Ruby Way</span><span class="punct">')</span>
+<span class="punct">=&gt;</span> <span class="comment">#&lt;Book:0x1706fd8 @attributes={:author=&gt;&quot;Hal Fulton&quot;, :title=&gt;&quot;The Ruby Way&quot;}, id1</span>
+
+<span class="punct">&gt;&gt;</span> <span class="ident">b</span> <span class="punct">=</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">first</span>
+<span class="punct">&gt;&gt;</span> <span class="ident">b</span><span class="punct">.</span><span class="ident">title</span>
+<span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">The Ruby Way</span><span class="punct">&quot;</span>
+<span class="punct">&gt;&gt;</span> <span class="ident">b</span><span class="punct">.</span><span class="ident">id</span>
+<span class="punct">=&gt;</span> <span class="number">1</span>
+</pre></p>
+<p>Theres also some primitive association support (more coming): Currently StaticModel supports has_many and belongs_to. This can work between StaticModels or between a StaticModel and an ActiveRecord model.</p>
+<p>Lets say our Books have many Readers. Book is our StaticModel, but a Reader is an ActiveRecord model.</p>
+<p><pre class='syntax'>
+<span class="keyword">class </span><span class="class">Reader</span> <span class="punct">&lt;</span> <span class="constant">ActiveRecord</span><span class="punct">::</span><span class="constant">Base</span>
+	<span class="ident">belongs_to</span> <span class="symbol">:book</span><span class="punct">,</span> <span class="symbol">:foreign_key</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">book_id</span><span class="punct">'</span>
+<span class="keyword">end</span>
+</pre></p>
+<p>This means that the readers table in our DB has a book_id column that refers to the IDs we used in our books.yml.</p>
+<p><pre class='syntax'>
+<span class="punct">&gt;&gt;</span> <span class="ident">r</span> <span class="punct">=</span> <span class="constant">Reader</span><span class="punct">.</span><span class="ident">create</span><span class="punct">(</span><span class="symbol">:name</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">Aaron Quint</span><span class="punct">',</span> <span class="symbol">:book_id</span> <span class="punct">=&gt;</span> <span class="number">1</span><span class="punct">)</span>
+<span class="punct">=&gt;</span> <span class="comment">#&lt;Reader&gt;</span>
+<span class="punct">&gt;&gt;</span> <span class="ident">r</span><span class="punct">.</span><span class="ident">book</span>
+<span class="punct">=&gt;</span> <span class="comment">#&lt;Book:0x1706fd8 @attributes={:author=&gt;&quot;Hal Fulton&quot;, :title=&gt;&quot;The Ruby Way&quot;}, id1</span>
+</pre></p>
+<p>This also works the other way around.</p>
+<p><pre class='syntax'>
+<span class="keyword">class </span><span class="class">Book</span> <span class="punct">&lt;</span> <span class="constant">StaticModel</span><span class="punct">::</span><span class="constant">Base</span>
+	<span class="ident">has_many</span> <span class="symbol">:readers</span>
+<span class="keyword">end</span>
+</pre></p>
+<p>has_many in StaticModel uses scoped if available. This means that you can use the power of chained scope associations and minimize queries.</p>
+<p><pre class='syntax'>
+<span class="punct">&gt;&gt;</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">first</span><span class="punct">.</span><span class="ident">readers</span> <span class="comment"># Fires off a single query</span>
+<span class="punct">&gt;&gt;</span> <span class="constant">Book</span><span class="punct">.</span><span class="ident">first</span><span class="punct">.</span><span class="ident">readers</span><span class="punct">.</span><span class="ident">find</span><span class="punct">(</span><span class="symbol">:all</span><span class="punct">,</span> <span class="symbol">:conditions</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">created_at &lt; ?</span><span class="punct">',</span> <span class="number">1</span><span class="punct">.</span><span class="ident">day</span><span class="punct">.</span><span class="ident">ago</span><span class="punct">])</span> <span class="comment"># Still only 1 query</span>
+</pre></p>
+<h2>Patches/Bugs/Feature Requests</h2>
+<p>The full and most up to date source is at github:</p>
+<p>http://github.com/quirkey/static_model/</p>
+<p>You can clone or fork from there to fix or break the code. The tests are written using the Shoulda gem, so youll need that in order to run the tests.</p>
+<p>I&#8217;m happy to take feature requests/bug reports. Just email me (contact below) or message me on github.</p>
 <h2>License</h2>
 <p>This code is free to use under the terms of the <span class="caps">MIT</span> license.</p>
 <h2>Contact</h2>
-<p>Comments are welcome. Send an email to <a href="mailto:FIXME"><span class="caps">FIXME</span> full name</a> email via the <a href="http://groups.google.com/group/static_model">forum</a></p>
+<p>Feel free to email me at aaron at quirkey dot com.</p>
     <p class="coda">
-      <a href="FIXME email">FIXME full name</a>, 9th July 2008<br>
+		Aaron Quint, Quirkey NYC, LLC, 26th November 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

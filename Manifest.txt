@@ -1,10 +1,8 @@
 History.txt
 License.txt
 Manifest.txt
-README.txt
+README.rdoc
 Rakefile
-config/hoe.rb
-config/requirements.rb
 lib/static_model.rb
 lib/static_model/base.rb
 lib/static_model/associations.rb
