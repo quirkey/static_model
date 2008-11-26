@@ -7,7 +7,8 @@ module StaticModel
     @@load_path = File.join('config', 'data')
 
     attr_reader :id
-
+    
+    
     def initialize(attribute_hash = {})
       raise(StaticModel::BadOptions, "Initializing a model is done with a Hash {} given #{attribute_hash.inspect}") unless attribute_hash.is_a?(Hash)
       @id = attribute_hash.delete('id') || attribute_hash.delete(:id) || (self.class.count + 1)
