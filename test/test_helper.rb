@@ -6,7 +6,7 @@ require 'mocha'
 require File.dirname(__FILE__) + '/../lib/static_model'
 
 class Book < StaticModel::Base
-  set_data_file File.join(File.dirname(__FILE__), 'books.yml')
+  set_data_file File.join(File.dirname(__FILE__), 'data', 'books.yml')
 end
 
 unless defined?(ActiveRecord::Base)
@@ -22,18 +22,23 @@ class Article < ActiveRecord::Base
 end
 
 class Publisher < StaticModel::Base
-  set_data_file File.join(File.dirname(__FILE__), 'publishers.yml')
+  set_data_file File.join(File.dirname(__FILE__), 'data', 'publishers.yml')
   
   has_many :authors
 end
 
 class Author < StaticModel::Base
-  set_data_file File.join(File.dirname(__FILE__), 'authors.yml')
+  set_data_file File.join(File.dirname(__FILE__), 'data','authors.yml')
   has_many :books
   has_many :articles
   belongs_to :publisher
 end
 
+class Page < StaticModel::Base
+  set_data_file File.join(File.dirname(__FILE__), 'data', 'pages.yml')
+  
+end
+  
 
 
 

@@ -66,7 +66,7 @@ class TestStaticModel < Test::Unit::TestCase
               @book = Book.find(1)
               @author = Author.find(1)
               @original_data_file = Book.data_file
-              @data_file = File.join(File.dirname(__FILE__), 'authors.yml')
+              @data_file = File.join(File.dirname(__FILE__), 'data', 'authors.yml')
               Book.set_data_file @data_file
               @new_book = Book.find(1)
             end
@@ -176,7 +176,7 @@ class TestStaticModel < Test::Unit::TestCase
           context "with an empty data file" do
             setup do
               @original_data_file = Book.data_file
-              @data_file = File.join(File.dirname(__FILE__), 'empty.yml')
+              @data_file = File.join(File.dirname(__FILE__), 'data', 'empty.yml')
               Book.set_data_file @data_file
             end
 
