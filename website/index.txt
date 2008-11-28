@@ -110,7 +110,7 @@ h2. Patches/Bugs/Feature Requests
 
 The full and most up to date source is at github:
 
-http://github.com/quirkey/static_model/
+"http://github.com/quirkey/static_model/":http://github.com/quirkey/static_model/
 
 You can clone or fork from there to fix or break the code. The tests are written using the Shoulda gem, so youll need that in order to run the tests.
 

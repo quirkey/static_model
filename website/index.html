@@ -19,22 +19,22 @@
           bl: { radius: 10 },
           br: { radius: 10 },
           antiAlias: true,
-          autoPad: true,
-          validTags: ["div"]
-      }
-      var versionBox = new curvyCorners(settings, document.getElementById("version"));
+          autoPad: true
+          }
+      var div = document.getElementById("version");
+      var versionBox = new curvyCorners(settings, div);
       versionBox.applyCornersToAll();
     }
   </script>
 </head>
 <body>
 <div id="main">
-
-    <h1>static_model</h1>
     <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/static_model"; return false'>
+      <h1>static_model</h1>
       <p>Get Version</p>
       <a href="http://rubyforge.org/projects/static_model" class="numbers">0.1.5</a>
     </div>
+    <div id="content">
     <h2>What</h2>
 <p>Static Model provides ActiveRecord like functionalities while reading from a simple <span class="caps">YAML</span> file.</p>
 <h2>Installing</h2>
@@ -116,7 +116,7 @@
 </pre></p>
 <h2>Patches/Bugs/Feature Requests</h2>
 <p>The full and most up to date source is at github:</p>
-<p>http://github.com/quirkey/static_model/</p>
+<p><a href="http://github.com/quirkey/static_model/">http://github.com/quirkey/static_model/</a></p>
 <p>You can clone or fork from there to fix or break the code. The tests are written using the Shoulda gem, so youll need that in order to run the tests.</p>
 <p>I&#8217;m happy to take feature requests/bug reports. Just email me (contact below) or message me on github.</p>
 <h2>License</h2>
@@ -124,9 +124,11 @@
 <h2>Contact</h2>
 <p>Feel free to email me at aaron at quirkey dot com.</p>
     <p class="coda">
-		Aaron Quint, Quirkey NYC, LLC, 26th November 2008<br>
-      Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
+	  28th November 2008<br>
+      Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>,
+      by Daniel Cadenas via <a href="http://depgraph.rubyforge.org/">DepGraph</a>, with some extra css from Quirkey
     </p>
+    </div>
 </div>
 
 <!-- insert site tracking codes here, like Google Urchin -->
