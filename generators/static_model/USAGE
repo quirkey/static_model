@@ -1,5 +1,8 @@
 Description:
   
-  
+  Generates an empty StaticModel class/model
+
 Usage:
   
+	./script/generate static_model ModelName
+	
