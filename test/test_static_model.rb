@@ -295,6 +295,47 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal Book.all.length, Book.count
           end
         end
+        
+        context "with a class with yaml class vars" do
+          setup do
+            @pages = Page.all
+          end
+          
+          should "load :records into @records" do
+            assert_set_of Page, @pages
+            assert Page.loaded?
+          end
+          
+          should "give access to top level attributes as class methods" do
+            assert_equal 'http://www.quirkey.com', Page.url
+            assert_equal 'The Best Ever', Page.title
+          end
+          
+          should "return a hash for class attribute" do
+            assert Page.settings.is_a?(Hash)
+            assert_equal 'test', Page.settings['username']
+          end
+          
+          should "have class attributes appear as record accessor defaults if none exist" do
+            assert_equal 'http://www.quirkey.com', Page[1].url
+          end
+          
+          should "not overwrite record specific methods" do
+            assert_equal 'http://github.com', Page[2].url
+          end
+          
+          context "class_attributes" do
+            setup do
+              @attributes = Page.class_attributes
+            end
+            
+            should "return a hash of all top level settings" do
+              assert @attributes.is_a?(Hash)
+              assert_equal 3, @attributes.length
+              assert_equal 'http://www.quirkey.com', @attributes['url']
+            end
+          end
+        end
 
       end
     end

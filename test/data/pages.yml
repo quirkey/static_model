@@ -1,0 +1,16 @@
+---
+title: The Best Ever
+url: http://www.quirkey.com
+settings:
+  username: test
+  password: test
+records:
+  - id: 1
+    position: 5
+    title: Getting to know you
+    content: Getting to know all about you
+  - id: 2
+    position: 6
+    title: Its not me, its you
+    content: The oldest excuse in the book
+    url: http://github.com
