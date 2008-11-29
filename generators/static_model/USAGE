@@ -4,5 +4,5 @@ Description:
 
 Usage:
   
-	./script/generate static_model ModelName
+	./script/generate static_model ModelName --data=config/data/ --lib=app/models/
 	

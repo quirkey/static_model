@@ -2,7 +2,7 @@ class StaticModelGenerator < RubiGen::Base
 
   default_options :author => nil
 
-  attr_reader :name, :lib_dir
+  attr_reader :name, :lib_dir, :data_dir
 
   def initialize(runtime_args, runtime_options = {})
     super
@@ -14,7 +14,6 @@ class StaticModelGenerator < RubiGen::Base
   def manifest
     record do |m|
       # Ensure appropriate folder(s) exists
-      data_dir = File.join('config', 'data')
       m.directory data_dir
       m.directory lib_dir
       m.template 'model.rb.erb', File.join(lib_dir, name.underscore + ".rb")
@@ -47,13 +46,12 @@ EOS
       # opts.on("-a", "--author=\"Your Name\"", String,
       #         "Some comment about this option",
       #         "Default: none") { |options[:author]| }
-      opts.on("-l", "--lib=your/path/", String, "Put the model.rb in a specific lib dir (default = app/models/)") {|options[:lib]|}
+      opts.on("-l", "--lib=your/path/", String, "Put the model.rb in a specific lib dir (default = app/models/)") {|o| options[:lib_dir] = o }
+      opts.on("-d", "--data=your/path/", String, "Put the models.yml data file in a specific data dir (default = config/data/)") {|o| options[:data_dir] = o }
     end
 
     def extract_options
-      # for each option, extract it into a local variable (and create an "attr_reader :author" at the top)
-      # Templates can access these value via the attr_reader-generated methods, but not the
-      # raw instance variable value.
       @lib_dir = options[:lib_dir] || File.join('app', 'models')
+      @data_dir = options[:data_dir] || File.join('config', 'data')
     end
 end
