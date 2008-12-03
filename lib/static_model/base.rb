@@ -9,10 +9,12 @@ module StaticModel
     attr_reader :id
     
     
-    def initialize(attribute_hash = {})
+    def initialize(attribute_hash = {}, force_load = true)
+      self.class.load if force_load
       raise(StaticModel::BadOptions, "Initializing a model is done with a Hash {} given #{attribute_hash.inspect}") unless attribute_hash.is_a?(Hash)
-      @id = attribute_hash.delete('id') || attribute_hash.delete(:id) || (self.class.count + 1)
+      @id = attribute_hash.delete('id') || attribute_hash.delete(:id) || self.class.next_id
       self.attributes = attribute_hash
+      self.class.last_id = @id
     end
 
     def to_s
@@ -74,7 +76,11 @@ module StaticModel
       def load(reload = false)
         return if loaded? && !reload
         raise(StaticModel::DataFileNotFound, "You must set a data file to load from") unless File.readable?(data_file) 
-        data = YAML::load_file(data_file)
+        begin
+          data = YAML::load_file(data_file)
+        rescue
+          raise(StaticModel::BadDataFile, "The data file you specified '#{data_file}' was not in a readable format.")
+        end
         records = []
         if data.is_a?(Hash) && data.has_key?('records')
           records = data.delete('records')
@@ -82,10 +88,13 @@ module StaticModel
         elsif data.is_a?(Array)
           records = data
         end
-        @records = records && !records.empty? ? records.dup.collect {|r| new(r) } : []
+        @last_id = 0
+        @records = records && !records.empty? ? records.dup.collect {|r| new(r, false) } : []
         @loaded = true
-      # rescue
-      #   raise(StaticModel::BadDataFile, "The data file you specified '#{data_file}' was not in a readable format.")
+      end
+      
+      def reload!
+        load(true)
       end
 
       def loaded?
@@ -121,12 +130,24 @@ module StaticModel
         load
         @records
       end
+      
+      def next_id
+        last_id + 1
+      end
+      
+      def last_id
+        @last_id ||= 0
+      end
 
+      def last_id=(new_last_id)
+        @last_id = new_last_id if new_last_id > self.last_id
+      end
+      
       protected
       def default_data_file_path
         File.join(@@load_path, "#{self.to_s.tableize}.yml")
       end
-
+      
       private
       def method_missing(meth, *args)
         meth_name = meth.to_s

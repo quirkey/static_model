@@ -85,6 +85,69 @@ class TestStaticModel < Test::Unit::TestCase
           end
         end
 
+        context "next_id" do
+          context "if id's were automaticaly assigned" do
+            should "be length + 1" do
+              Store.load
+              assert_equal Store.count + 1, Store.next_id
+            end            
+          end
+          
+          context "if ids were manualy assigned" do
+            should "be 1 after the last id" do
+              Publisher.load
+              assert_equal 8, Publisher.next_id
+            end
+          end
+        end
+        
+        context "where the records are defined without ids" do
+          setup do
+            Store.reload!
+          end
+          
+          context "loading" do
+            setup do
+              @stores = Store.all
+            end
+            
+            should "automaticaly assign ids" do
+              @stores.each do |store|
+                assert store.id
+                assert store.id.is_a?(Fixnum)
+              end
+            end
+            
+            should "assign next id" do
+              assert Store.next_id
+              assert_equal 3, Store.next_id
+            end
+          end
+          
+          context "initializing without id" do
+            setup do
+              @store = Store.new({:name => 'Metro Comics', :city => 'New York'})
+            end
+                                    
+            should "return instance" do
+              assert @store.is_a?(Store)
+            end
+            
+            should "set attributes" do
+              assert_equal 'New York', @store.city
+            end
+            
+            should "assign id from next id" do
+              assert_equal 3, @store.id
+            end
+            
+            should "increment next_id" do
+              assert_equal 4, Store.next_id
+            end
+            
+          end
+        end
+
         context "find" do
 
           context "with an integer" do

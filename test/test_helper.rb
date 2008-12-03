@@ -39,6 +39,10 @@ class Page < StaticModel::Base
   
 end
   
+class Store < StaticModel::Base
+  set_data_file File.join(File.dirname(__FILE__), 'data', 'stores.yml')
+  
+end
 
 
 

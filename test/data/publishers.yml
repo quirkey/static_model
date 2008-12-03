@@ -1,5 +1,7 @@
 ---
-  - id: 1
-    name: Phaidon
-  - id: 2
-    name: Penguin
+- id: 1
+  name: Phaidon
+- id: 2
+  name: Penguin
+- id: 7
+  name: Marvel
