@@ -1,0 +1,7 @@
+---
+- id: 1
+  name: My Project
+  created_at: <%= 1.day.ago.strftime('%m/%d/%Y %I:%M%p') %>
+- id: 2
+  name: Someone Elses Project
+  author_id: <%= Author.first.id %>

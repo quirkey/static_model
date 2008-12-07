@@ -3,10 +3,11 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'yaml'
 
+
 require 'active_support/inflector'
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/string'
-
+require 'active_support/core_ext/integer'
 
 require 'static_model/errors'
 require 'static_model/associations'

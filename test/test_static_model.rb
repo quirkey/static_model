@@ -147,6 +147,20 @@ class TestStaticModel < Test::Unit::TestCase
             
           end
         end
+        
+        context "loading a data_file with embedded erb" do
+          setup do
+            @projects = Project.all
+          end
+          
+          should "evaluate erb expressions at load time" do
+            assert_equal 1.day.ago.strftime('%m/%d/%Y %I:%M%p'), @projects.first.created_at
+          end
+          
+          should "evaluate erb in current context" do
+            assert_equal Author.first, @projects[1].author
+          end
+        end
 
         context "find" do
 

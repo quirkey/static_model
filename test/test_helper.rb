@@ -44,7 +44,10 @@ class Store < StaticModel::Base
   
 end
 
-
+class Project < StaticModel::Base
+  set_data_file File.join(File.dirname(__FILE__), 'data', 'projects.yml')
+  belongs_to :author
+end
 
 class Test::Unit::TestCase
   
