@@ -77,7 +77,9 @@ module StaticModel
         return if loaded? && !reload
         raise(StaticModel::DataFileNotFound, "You must set a data file to load from") unless File.readable?(data_file) 
         begin
-          data = YAML::load_file(data_file)
+          raw_data = File.open(data_file) {|f| f.read }
+          parsed_data = ERB.new(raw_data).result
+          data = YAML::load(parsed_data)
         rescue
           raise(StaticModel::BadDataFile, "The data file you specified '#{data_file}' was not in a readable format.")
         end

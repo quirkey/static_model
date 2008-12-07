@@ -2,6 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 require 'yaml' unless defined?(YAML)
+require 'erb'  unless defined?(ERB)
 
 unless defined?(ActiveSupport::CoreExtensions)
   require 'active_support/inflector'
