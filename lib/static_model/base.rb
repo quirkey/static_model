@@ -3,7 +3,7 @@ module StaticModel
     include StaticModel::Associations
     include StaticModel::ActiveRecord
     include StaticModel::Comparable
-    
+    extend  StaticModel::Casting
     @@load_path = File.join('config', 'data')
 
     attr_reader :id
@@ -78,10 +78,10 @@ module StaticModel
         raise(StaticModel::DataFileNotFound, "You must set a data file to load from") unless File.readable?(data_file) 
         begin
           raw_data = File.open(data_file) {|f| f.read }
-          parsed_data = ERB.new(raw_data).result
+          parsed_data = ERB.new(raw_data).result(binding)
           data = YAML::load(parsed_data)
-        rescue
-          raise(StaticModel::BadDataFile, "The data file you specified '#{data_file}' was not in a readable format.")
+        rescue => e
+          raise(StaticModel::BadDataFile, "The data file you specified '#{data_file}' was not in a readable format. #{e}")
         end
         records = []
         if data.is_a?(Hash) && data.has_key?('records')

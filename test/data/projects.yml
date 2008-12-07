@@ -5,3 +5,7 @@
 - id: 2
   name: Someone Elses Project
   author_id: <%= Author.first.id %>
+- id: 3
+  name: My last project
+  num_pages: "123456"
+  updated_at: <%= 1.day.ago.to_s %>
