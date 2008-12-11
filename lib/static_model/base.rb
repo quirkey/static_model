@@ -63,6 +63,11 @@ module StaticModel
         records[0]
       end
       alias_method :first, :find_first
+      
+      def find_last
+        records[records.length-1]
+      end
+      alias_method :last, :find_last
 
       def find_all_by(attribute, value)
         records.find_all {|r| r.send(attribute) == value }
@@ -72,6 +77,11 @@ module StaticModel
         records.find {|r| r.send(attribute) == value }
       end
       alias_method :find_by, :find_first_by
+      
+      def find_last_by(attribute, value)
+        records.find {|r| r.send(attribute) == value }
+      end
+      alias_method :find_by, :find_last_by
 
       def load(reload = false)
         return if loaded? && !reload
@@ -153,8 +163,8 @@ module StaticModel
       private
       def method_missing(meth, *args)
         meth_name = meth.to_s
-        if meth_name =~ /^find_(all_by|first_by|by)_(.+)/
-          attribute_name = meth_name.gsub(/^find_(all_by|first_by|by)_/, '')
+        if meth_name =~ /^find_(all_by|first_by|last_by|by)_(.+)/
+          attribute_name = meth_name.gsub(/^find_(all_by|first_by|last_by|by)_/, '')
           finder    = meth_name.gsub(/_#{attribute_name}/, '')
           return self.send(finder, attribute_name, *args)
         elsif class_attributes.has_key? meth_name

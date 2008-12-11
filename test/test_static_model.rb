@@ -205,6 +205,11 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal Book.find_first, Book.find(:first)
           end
         end
+        context "find(:last)" do
+          should "be an alias for find_last" do
+            assert_equal Book.find_last, Book.find(:last)
+          end
+        end
 
         context "all" do
           should "be an alias for find_all" do
@@ -214,6 +219,11 @@ class TestStaticModel < Test::Unit::TestCase
         context "first" do
           should "be an alias for find_first" do
             assert_equal Book.first, Book.find(:first)
+          end
+        end
+        context "last" do
+          should "be an alias for find_last" do
+            assert_equal Book.last, Book.find(:last)
           end
         end
 
@@ -227,6 +237,20 @@ class TestStaticModel < Test::Unit::TestCase
           end
 
           should "return instance of klass" do
+            assert @book.is_a?(Book)
+          end
+        end
+
+        context "find_last" do
+          setup do
+            @book = Book.find_last
+          end
+          
+          should "return the last instance from all records" do
+            assert_equal Book.find_all.last, @book
+          end
+          
+          should "return an instance of klass" do
             assert @book.is_a?(Book)
           end
         end
@@ -285,6 +309,27 @@ class TestStaticModel < Test::Unit::TestCase
           context "when there is no match" do
             should "return nil" do
               assert_nil Book.find_first_by(:author,'Aaron Quint')
+            end
+          end
+        end
+        
+        context "find_last_by" do
+          setup do
+            @author = 'Chuck Palahniuk'
+            @book = Book.find_last_by(:author, @author)
+          end
+          
+          should "return an instance of klass" do
+            assert @book.is_a?(Book)
+          end
+          
+          should "return record matching search" do
+            assert @author, @book.author
+          end
+          
+          context "when there is no match" do
+            should "return nil" do
+              assert_nil Book.find_last_by(:author, 'Michael R. Bernstein')
             end
           end
         end
