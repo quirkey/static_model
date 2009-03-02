@@ -1,7 +1,6 @@
 var Quirkey = {
 	initialize: function() {
 		this.quirkey_nav.initialize();
-		this.github.initialize();
 	},
 	quirkey_nav: {
 		opened: false,

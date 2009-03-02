@@ -161,4 +161,6 @@ h3(#contact). Contact
 
 Feel free to email me at aaron at quirkey dot com. 
 
-Please check out my "blog.":http://quirkey.com/blog If you like/use this library I don't want donations, but you can "recommend me on workingwithrails.com":http://www.workingwithrails.com/person/8362-aaron-quint or hire me to work on your next project.
+Please check out my "blog.":http://quirkey.com/blog 
+
+If you like or use this library - I don't want donations - but you can "recommend me on workingwithrails.com":http://www.workingwithrails.com/person/8362-aaron-quint or hire me to work on your next project.
