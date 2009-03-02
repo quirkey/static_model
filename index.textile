@@ -1,39 +1,34 @@
 ---
 layout: quirkey
 title: static_model
+github_name: static_model
+current_version: 0.2.2
 nav:
-  - name: Top
-    link: "#top"
   - name: What
     link: "#what"
+  - name: Why
+    link: "#why"
+  - name: Usage
+    link: "#usage"
   - name: Installing
     link: "#installing"
-  
+  - name: Bugs/Feature Requests
+    link: "#requests"
+  - name: Contact
+    link: "#contact"
 ---
-h1. static_model
 
-h2. What
+h2(project_name). static_model
+
+h3(#what). What
 
 Static Model provides ActiveRecord like functionalities while reading from a simple YAML file. 
 
-h2. Installing
-
-{% highlight bash %}
-sudo gem install static_model
-{% endhighlight %}
-
-Or directly from github:
-
-{% highlight bash %}
-sudo gem install quirkey-static_model -s http://gems.github.com
-{% endhighlight %}
-
-
-h2. The basics
+h3(#why). Why
 
 There are sometimes when you need records that are completely immutable or need to travel very easily with your app. One of the problems with storing all your data in a database is that you can't really make assumptions about certain records existing. StaticModel provides a very easy way to create models that act just like ActiveRecord, but are reading off of static YAML files that can exist in your app/repository.
 
-h2. Demonstration of usage
+h3(#usage). Usage
 
 StaticModel is a gem and can be used in any Ruby project, but it was designed around being used in Rails. The instructions that follow are Rails specific, but to use it in any Ruby app would not be much different.
 
@@ -126,21 +121,44 @@ has_many in StaticModel uses scoped if available. This means that you can use th
 >> Book.first.readers.find(:all, :conditions => ['created_at < ?', 1.day.ago]) # Still only 1 query
 {% endhighlight %}
 
+h3(#installing). Installing
 
-h2. Patches/Bugs/Feature Requests
+{% highlight bash %}
+sudo gem install static_model
+{% endhighlight %}
+
+Or directly from github:
+
+{% highlight bash %}
+sudo gem install quirkey-static_model -s http://gems.github.com
+{% endhighlight %}
+
+Github in thier infinite awesomeness also lets you download the source in multiple formats.
+
+<div class="download">
+      <a href="http://github.com/quirkey/{{ page.github_name}}/zipball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+        <a href="http://github.com/quirkey/{{ page.github_name}}/tarball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+</div>
+
+
+h3(#requests). Bugs/Feature Requests
 
 The full and most up to date source is at github:
 
-"http://github.com/quirkey/static_model/":http://github.com/quirkey/static_model/
+"http://github.com/quirkey/{{ page.github_name}}/":http://github.com/quirkey/{{ page.github_name}}/
 
 You can clone or fork from there to fix or break the code. The tests are written using the Shoulda gem, so youll need that in order to run the tests.
 
 I'm happy to take feature requests/bug reports. Just email me (contact below) or message me on github.
 
-h2. License
+h3(#license). License
 
-This code is free to use under the terms of the MIT license. 
+This code is free to use under the terms of the "MIT license.":http://www.opensource.org/licenses/mit-license.php 
 
-h2. Contact
+h3(#contact). Contact
 
-Feel free to email me at aaron at quirkey dot com.
+Feel free to email me at aaron at quirkey dot com. 
+
+Please check out my "blog.":http://quirkey.com/blog If you like/use this library I don't want donations, but you can "recommend me on workingwithrails.com":http://www.workingwithrails.com/person/8362-aaron-quint or hire me to work on your next project.
