@@ -1,0 +1,129 @@
+---
+layout: quirkey
+title: static_model
+---
+h1. static_model
+
+h2. What
+
+Static Model provides ActiveRecord like functionalities while reading from a simple YAML file. 
+
+h2. Installing
+
+<pre syntax="ruby">sudo gem install static_model</pre>
+
+h2. The basics
+
+There are sometimes when you need records that are completely immutable or need to travel very easily with your app. One of the problems with storing all your data in a database is that you can't really make assumptions about certain records existing. StaticModel provides a very easy way to create models that act just like ActiveRecord, but are reading off of static YAML files that can exist in your app/repository.
+
+h2. Demonstration of usage
+
+StaticModel is a gem and can be used in any Ruby project, but it was designed around being used in Rails. The instructions that follow are Rails specific, but to use it in any Ruby app would not be much different.
+
+The first thing to do is set up your model. In app/models/ create a model just like you would with an AR model. For example, lets create a Book model:
+
+<pre syntax="ruby">
+# app/models/book.rb
+class Book < StaticModel::Base
+
+end
+</pre>
+
+StaticModels descend from StaticModel::Base. Without any config, this model makes some assumptions. It assumes you have a YAML file in config/data/TABLE_NAME.yml. The table name is assumed to be the lower-cased plural of the model name (just like Rails DB tables). For example, for our Book model, we would have a YAML file config/data/books.yml. If you want the file living somewhere else, or names something completely different, just use the macro: set_data_file
+
+<pre syntax="ruby">
+class Book < StaticModel::Base
+	set_data_file '/path/to/my/file/withanothername.yml'
+end
+</pre>
+
+The format of the YAML file is very simple. StaticModel just expects an array of YAML hashses. The only requirement is that each of these hashes has an 'id' with a unique integer.
+
+For example, heres our books.yml
+
+<pre syntax="yaml">
+---
+- id: 1
+  title: The Ruby Way
+  author: Hal Fulton
+- id: 2
+  title: Programming Ruby
+  author: Dave Thomas
+  publisher: Pragmatic Programmers
+</pre>
+
+With this set up, we can now query our data using almost identical methods to AR.
+
+<pre syntax="ruby">
+>> Book.find(1)
+=> #<Book:0x1706fd8 @attributes={:author=>"Hal Fulton", :title=>"The Ruby Way"}, id1
+
+>> Book.first
+=> #<Book:0x1706fd8 @attributes={:author=>"Hal Fulton", :title=>"The Ruby Way"}, id1
+
+>> Book.find(:all) (or Book.all)
+=> [#<Book:0x1706fd8 @attributes={:author=>"Hal Fulton", :title=>"The Ruby Way"}, id1, 
+		#<Book:0x1706fc4 @attributes={:author=>"Dave Thomas", :title=>"Programming Ruby", :publisher=>"Pragmatic Programmers"}, id2]
+
+>> Book.find_by_title('The Ruby Way')
+=> #<Book:0x1706fd8 @attributes={:author=>"Hal Fulton", :title=>"The Ruby Way"}, id1
+
+>> b = Book.first
+>> b.title
+=> "The Ruby Way"
+>> b.id
+=> 1
+</pre>
+
+Theres also some primitive association support (more coming): Currently StaticModel supports has_many and belongs_to. This can work between StaticModels or between a StaticModel and an ActiveRecord model. 
+
+Lets say our Books have many Readers. Book is our StaticModel, but a Reader is an ActiveRecord model.
+
+<pre syntax="ruby">
+class Reader < ActiveRecord::Base
+	belongs_to :book, :foreign_key => 'book_id'
+end
+</pre>
+
+This means that the readers table in our DB has a book_id column that refers to the IDs we used in our books.yml. 
+
+<pre syntax="ruby">
+>> r = Reader.create(:name => 'Aaron Quint', :book_id => 1)
+=> #<Reader>
+>> r.book
+=> #<Book:0x1706fd8 @attributes={:author=>"Hal Fulton", :title=>"The Ruby Way"}, id1
+</pre>
+
+This also works the other way around.
+
+<pre syntax="ruby">
+class Book < StaticModel::Base
+	has_many :readers
+end
+</pre>
+
+has_many in StaticModel uses scoped if available. This means that you can use the power of chained scope associations and minimize queries.
+
+<pre syntax="ruby">
+>> Book.first.readers # Fires off a single query
+>> Book.first.readers.find(:all, :conditions => ['created_at < ?', 1.day.ago]) # Still only 1 query
+</pre>
+
+
+h2. Patches/Bugs/Feature Requests
+
+The full and most up to date source is at github:
+
+"http://github.com/quirkey/static_model/":http://github.com/quirkey/static_model/
+
+You can clone or fork from there to fix or break the code. The tests are written using the Shoulda gem, so youll need that in order to run the tests.
+
+I'm happy to take feature requests/bug reports. Just email me (contact below) or message me on github.
+
+h2. License
+
+This code is free to use under the terms of the MIT license. 
+
+h2. Contact
+
+Feel free to email me at aaron at quirkey dot com.
