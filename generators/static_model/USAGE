@@ -1,8 +1,0 @@
-Description:
-  
-  Generates an empty StaticModel class/model
-
-Usage:
-  
-	./script/generate static_model ModelName --data=config/data/ --lib=app/models/
-	
