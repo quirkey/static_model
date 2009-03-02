@@ -1,6 +1,14 @@
 ---
 layout: quirkey
 title: static_model
+nav:
+  - name: Top
+    link: "#top"
+  - name: What
+    link: "#what"
+  - name: Installing
+    link: "#installing"
+  
 ---
 h1. static_model
 

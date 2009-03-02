@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	<title>.: Quirkey.com :: {{ title }} :: Code :: Quirkey NYC, LLC :: Aaron Quint :: Web Developer :: Brooklyn, NY :.</title>
+	<title>.: Quirkey.com :: {{ page.title }} :: Code :: Quirkey NYC, LLC :: Aaron Quint :: Web Developer :: Brooklyn, NY :.</title>
 	<link rel="stylesheet" href="stylesheets/quirkey.css" type="text/css" media="screen" charset="utf-8"true>
 	<script src="javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
 	<script src="javascripts/quirkey.js" type="text/javascript" charset="utf-8"></script>
@@ -27,6 +27,13 @@
 			<div class="quirkey_nav_close" style="display:none;"><a href="#">^</a></div>
 		</div>
 		<div id="main">
+		  {% if page.nav %}
+		    <ul id="pagenav">
+		      {% for nav in page.nav %}
+            <li><a href="{{ nav['link'] }}">{{ nav['name'] }}</a></li>
+		      {% endfor %}
+		    </ul>
+		  {% endif %}
       {{ content }}
 		</div>
 		<div id="footer">
