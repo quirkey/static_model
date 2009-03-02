@@ -26,6 +26,9 @@ a:hover {
 a img {
 	border:1px solid #E5E5E5;
 }
+p {
+	line-height: 140%;
+}
 #container {
 	width: 100%;
 }
