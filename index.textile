@@ -1,5 +1,5 @@
 ---
-layout: quirkey
+layout: quirkey_code
 title: static_model
 github_name: static_model
 current_version: 0.2.2
