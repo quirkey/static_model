@@ -4,12 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'yaml' unless defined?(YAML)
 require 'erb'  unless defined?(ERB)
 
-unless defined?(ActiveSupport::CoreExtensions)
-  require 'active_support/inflector'
-  require 'active_support/core_ext/hash'
-  require 'active_support/core_ext/string'
-  require 'active_support/core_ext/integer' 
-end
+require 'active_support'
 
 require 'static_model/errors'
 require 'static_model/associations'
