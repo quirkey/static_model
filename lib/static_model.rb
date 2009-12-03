@@ -6,9 +6,14 @@ require 'erb'  unless defined?(ERB)
 
 require 'active_support'
 
+module StaticModel
+  VERSION = '0.2.3'
+end
+
 require 'static_model/errors'
 require 'static_model/associations'
 require 'static_model/active_record'
 require 'static_model/comparable'
 require 'static_model/base'
 require 'static_model/rails'
+
