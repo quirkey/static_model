@@ -40,6 +40,17 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal @book.inspect, @book.to_s
           end
         end
+        
+        context "has_attribute?" do
+          should "return false if attribute doesn't exist" do
+            assert !@book.has_attribute?(:blurgh)
+          end
+          
+          should "return true if attribute exists" do
+            assert @book.has_attribute?(:id)
+            assert @book.has_attribute?(:title)
+          end
+        end
 
         context "comparing" do
 

@@ -32,6 +32,10 @@ module StaticModel
     def attribute_names
       (attributes.keys | self.class.class_attributes.keys).collect {|k| k.to_s }
     end
+    
+    def has_attribute?(name)
+      name.to_s == 'id' || attribute_names.include?(name.to_s)
+    end
 
     class << self
 
@@ -70,18 +74,17 @@ module StaticModel
       alias_method :last, :find_last
 
       def find_all_by(attribute, value)
-        records.find_all {|r| r.send(attribute) == value }
+        records.find_all {|r| r.has_attribute?(attribute) ? (r.send(attribute) == value) : false }
       end
 
       def find_first_by(attribute, value)
-        records.find {|r| r.send(attribute) == value }
+        records.find {|r| r.has_attribute?(attribute) ? (r.send(attribute) == value) : false }
       end
       alias_method :find_by, :find_first_by
       
       def find_last_by(attribute, value)
-        records.find {|r| r.send(attribute) == value }
+        records.reverse.find {|r| r.has_attribute?(attribute) ? (r.send(attribute) == value) : false }
       end
-      alias_method :find_by, :find_last_by
 
       def load(reload = false)
         return if loaded? && !reload
@@ -186,7 +189,7 @@ module StaticModel
     private
     def method_missing(meth, *args)
       attribute_name = meth.to_s.gsub(/=$/,'')
-      if attribute_names.include?(attribute_name)
+      if has_attribute?(attribute_name)
         if meth.to_s =~ /=$/
           # set
           return set_attribute(attribute_name, args[0])
