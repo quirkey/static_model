@@ -1,3 +1,8 @@
+== 0.2.4 2009-12-14
+
+* Finds don't care if attribute doesn't exist on certain records
+* Base#has_attribute?
+
 == 0.2.3 2009-12-03
 
 * Fixed active_support dependency
