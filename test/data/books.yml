@@ -4,6 +4,8 @@
     author: Michael Pollan
     author_id: 1
     genre: Non-Fiction
+    rating: 5
+    read: true
   - id: 2
     title: In Defense of Food
     author: Michael Pollan

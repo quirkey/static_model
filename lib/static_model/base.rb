@@ -8,7 +8,6 @@ module StaticModel
 
     attr_reader :id
     
-    
     def initialize(attribute_hash = {}, force_load = true)
       self.class.load if force_load
       raise(StaticModel::BadOptions, "Initializing a model is done with a Hash {} given #{attribute_hash.inspect}") unless attribute_hash.is_a?(Hash)
@@ -21,6 +20,35 @@ module StaticModel
       self.inspect
     end
 
+    def self.attribute(name, options = {})
+      options = {
+        :default => nil,
+        :freeze => false
+      }.merge(options)
+      @defined_attributes ||= {}
+      @defined_attributes[name.to_s] = options
+      
+      module_eval <<-EOT
+        def #{name}
+          @attributes['#{name}'] || #{options[:default].inspect}
+        end
+        
+        def #{name}=(value)
+          if !#{options[:freeze].inspect}
+            @attributes['#{name}'] = value
+          end
+        end
+        
+        def #{name}?
+          !!#{name}
+        end
+      EOT
+    end
+    
+    def self.defined_attributes
+      @defined_attributes || {}
+    end
+
     def attributes
       @attributes ||= HashWithIndifferentAccess.new
     end
@@ -30,7 +58,7 @@ module StaticModel
     end
 
     def attribute_names
-      (attributes.keys | self.class.class_attributes.keys).collect {|k| k.to_s }
+      (attributes.keys | self.class.class_attributes.keys | self.class.defined_attributes.keys).collect {|k| k.to_s }
     end
     
     def has_attribute?(name)

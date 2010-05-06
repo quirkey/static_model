@@ -34,6 +34,32 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal 'New Title', @book.title
           end
         end
+        
+        context "attribute" do          
+          should "define methods for the attribute" do
+            book = Book[1]
+            assert book.respond_to?(:rating)
+            assert book.respond_to?(:rating=)
+            assert book.respond_to?(:rating?)
+            assert_equal 5, book.rating
+          end
+          
+          should "return the default if attribute is not set" do
+            book = Book[2]
+            assert book.respond_to?(:rating)
+            assert book.respond_to?(:rating=)
+            assert book.respond_to?(:rating?)
+            assert_equal 3, book.rating
+          end
+          
+          should "freeze the attribute" do
+            book = Book[1]
+            assert book.read?
+            book.read = false
+            assert book.read?
+          end
+                    
+        end
 
         context "to_s" do
           should "inspect" do

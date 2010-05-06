@@ -6,6 +6,8 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = %q{static_model}
     s.version = StaticModel::VERSION
+    s.email = %{aaron at quirkey dot com}
+    s.homepage = "http://github.com/quirkey/static_model"
     s.authors = ["Aaron Quint"]
     s.date = %q{2009-12-03}
     s.summary = 'ActiveRecord like functionalities for reading from YAML with a simple class implementation'

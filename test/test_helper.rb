@@ -7,6 +7,9 @@ require File.dirname(__FILE__) + '/../lib/static_model'
 
 class Book < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'data', 'books.yml')
+  
+  attribute :rating, :default => 3
+  attribute :read, :default => false, :freeze => true
 end
 
 unless defined?(ActiveRecord::Base)

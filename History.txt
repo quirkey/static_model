@@ -1,3 +1,14 @@
+== 0.3.0 2010-05-06
+
+* Attributes can now be defined within the class with 
+  
+  attribute :name, options
+  
+  These create the actual methods to ensure that this model/instance always
+  responds to the accessors for this attribute
+  
+* Mock out destroyed? for AR 2.3.5
+
 == 0.2.4 2009-12-14
 
 * Finds don't care if attribute doesn't exist on certain records

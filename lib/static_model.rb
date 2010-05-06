@@ -7,7 +7,7 @@ require 'erb'  unless defined?(ERB)
 require 'active_support'
 
 module StaticModel
-  VERSION = '0.2.4'
+  VERSION = '0.3.0'
 end
 
 require 'static_model/errors'
