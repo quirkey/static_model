@@ -88,7 +88,6 @@ module StaticModel
 
       def load(reload = false)
         return if loaded? && !reload
-        raise(StaticModel::DataFileNotFound, "You must set a data file to load from") unless File.readable?(data_file) 
         begin
           raw_data = File.open(data_file) {|f| f.read }
           parsed_data = ERB.new(raw_data).result
@@ -157,7 +156,7 @@ module StaticModel
       def last_id=(new_last_id)
         @last_id = new_last_id if new_last_id > self.last_id
       end
-      
+            
       protected
       def default_data_file_path
         File.join(@@load_path, "#{self.to_s.tableize}.yml")

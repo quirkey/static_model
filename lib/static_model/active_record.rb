@@ -6,6 +6,9 @@ module StaticModel
       false
     end
     
+    def destroyed?
+      false
+    end
 
   end
 end
