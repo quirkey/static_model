@@ -4,6 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'yaml' unless defined?(YAML)
 require 'erb'  unless defined?(ERB)
 
+gem 'activesupport', '~>2.3.8'
 require 'active_support'
 
 module StaticModel
@@ -16,4 +17,3 @@ require 'static_model/active_record'
 require 'static_model/comparable'
 require 'static_model/base'
 require 'static_model/rails'
-

@@ -1,9 +1,9 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper'
 
 class TestStaticModel < Test::Unit::TestCase
 
   context "StaticModel" do
-    context "A class that inherits from Base" do      
+    context "A class that inherits from Base" do
       context "an instance" do
 
         setup do
@@ -20,7 +20,7 @@ class TestStaticModel < Test::Unit::TestCase
             assert_raise(StaticModel::BadOptions) do
               Book.new("im bad")
             end
-          end      
+          end
         end
 
         context "attributes" do
@@ -34,8 +34,8 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal 'New Title', @book.title
           end
         end
-        
-        context "attribute" do          
+
+        context "attribute" do
           should "define methods for the attribute" do
             book = Book[1]
             assert book.respond_to?(:rating)
@@ -43,7 +43,7 @@ class TestStaticModel < Test::Unit::TestCase
             assert book.respond_to?(:rating?)
             assert_equal 5, book.rating
           end
-          
+
           should "return the default if attribute is not set" do
             book = Book[2]
             assert book.respond_to?(:rating)
@@ -51,27 +51,21 @@ class TestStaticModel < Test::Unit::TestCase
             assert book.respond_to?(:rating?)
             assert_equal 3, book.rating
           end
-          
+
           should "freeze the attribute" do
             book = Book[1]
             assert book.read?
             book.read = false
             assert book.read?
           end
-                    
+
         end
 
-        context "to_s" do
-          should "inspect" do
-            assert_equal @book.inspect, @book.to_s
-          end
-        end
-        
         context "has_attribute?" do
           should "return false if attribute doesn't exist" do
             assert !@book.has_attribute?(:blurgh)
           end
-          
+
           should "return true if attribute exists" do
             assert @book.has_attribute?(:id)
             assert @book.has_attribute?(:title)
@@ -113,7 +107,7 @@ class TestStaticModel < Test::Unit::TestCase
             end
 
             should "reload with next find" do
-              assert @author.attributes, @new_book.attributes
+              assert_equal @author.attributes, @new_book.attributes
             end
 
             teardown do
@@ -127,9 +121,9 @@ class TestStaticModel < Test::Unit::TestCase
             should "be length + 1" do
               Store.load
               assert_equal Store.count + 1, Store.next_id
-            end            
+            end
           end
-          
+
           context "if ids were manualy assigned" do
             should "be 1 after the last id" do
               Publisher.load
@@ -137,63 +131,63 @@ class TestStaticModel < Test::Unit::TestCase
             end
           end
         end
-        
+
         context "where the records are defined without ids" do
           setup do
             Store.reload!
           end
-          
+
           context "loading" do
             setup do
               @stores = Store.all
             end
-            
+
             should "automaticaly assign ids" do
               @stores.each do |store|
                 assert store.id
                 assert store.id.is_a?(Fixnum)
               end
             end
-            
+
             should "assign next id" do
               assert Store.next_id
               assert_equal 3, Store.next_id
             end
           end
-          
+
           context "initializing without id" do
             setup do
               @store = Store.new({:name => 'Metro Comics', :city => 'New York'})
             end
-                                    
+
             should "return instance" do
               assert @store.is_a?(Store)
             end
-            
+
             should "set attributes" do
               assert_equal 'New York', @store.city
             end
-            
+
             should "assign id from next id" do
               assert_equal 3, @store.id
             end
-            
+
             should "increment next_id" do
               assert_equal 4, Store.next_id
             end
-            
+
           end
         end
-        
+
         context "loading a data_file with embedded erb" do
           setup do
             @projects = Project.all
           end
-          
+
           should "evaluate erb expressions at load time" do
             assert_equal 1.day.ago.strftime('%m/%d/%Y %I:%M%p'), @projects.first.created_at
           end
-          
+
           should "evaluate erb in current context" do
             assert_equal Author.first, @projects[1].author
           end
@@ -282,11 +276,11 @@ class TestStaticModel < Test::Unit::TestCase
           setup do
             @book = Book.find_last
           end
-          
+
           should "return the last instance from all records" do
             assert_equal Book.find_all.last, @book
           end
-          
+
           should "return an instance of klass" do
             assert @book.is_a?(Book)
           end
@@ -349,21 +343,21 @@ class TestStaticModel < Test::Unit::TestCase
             end
           end
         end
-        
+
         context "find_last_by" do
           setup do
             @author = 'Chuck Palahniuk'
             @book = Book.find_last_by(:author, @author)
           end
-          
+
           should "return an instance of klass" do
             assert @book.is_a?(Book)
           end
-          
+
           should "return record matching search" do
             assert @author, @book.author
           end
-          
+
           context "when there is no match" do
             should "return nil" do
               assert_nil Book.find_last_by(:author, 'Michael R. Bernstein')
@@ -454,40 +448,40 @@ class TestStaticModel < Test::Unit::TestCase
             assert_equal Book.all.length, Book.count
           end
         end
-        
+
         context "with a class with yaml class vars" do
           setup do
             @pages = Page.all
           end
-          
+
           should "load :records into @records" do
             assert_set_of Page, @pages
             assert Page.loaded?
           end
-          
+
           should "give access to top level attributes as class methods" do
             assert_equal 'http://www.quirkey.com', Page.url
             assert_equal 'The Best Ever', Page.title
           end
-          
+
           should "return a hash for class attribute" do
             assert Page.settings.is_a?(Hash)
             assert_equal 'test', Page.settings['username']
           end
-          
+
           should "have class attributes appear as record accessor defaults if none exist" do
             assert_equal 'http://www.quirkey.com', Page[1].url
           end
-          
+
           should "not overwrite record specific methods" do
             assert_equal 'http://github.com', Page[2].url
           end
-          
+
           context "class_attributes" do
             setup do
               @attributes = Page.class_attributes
             end
-            
+
             should "return a hash of all top level settings" do
               assert @attributes.is_a?(Hash)
               assert_equal 3, @attributes.length

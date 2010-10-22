@@ -13,7 +13,7 @@ begin
     s.summary = 'ActiveRecord like functionalities for reading from YAML with a simple class implementation'
     s.description   = %q{StaticModel provides a Base class much like ActiveRecord which supports reading from a YAML file and basic associations to ActiveRecord}
     s.rubyforge_project = %q{quirkey}
-    s.add_runtime_dependency(%q<activesupport>, [">= 2.2.0"])
+    s.add_runtime_dependency(%q<activesupport>, ["~>2.3.8"])
     s.add_runtime_dependency(%q<rubigen>, [">= 1.5.1"])
     s.add_development_dependency(%q<Shoulda>, [">= 1.2.0"])
   end

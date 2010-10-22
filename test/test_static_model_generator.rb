@@ -1,5 +1,4 @@
-require File.join(File.dirname(__FILE__), "test_generator_helper.rb")
-
+require 'test_helper'
 
 class TestStaticModelGenerator < Test::Unit::TestCase
   include RubiGen::GeneratorTestHelper

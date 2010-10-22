@@ -1,13 +1,13 @@
-module StaticModel  
+module StaticModel
   class Base
     include StaticModel::Associations
     include StaticModel::ActiveRecord
     include StaticModel::Comparable
-    
+
     @@load_path = File.join('config', 'data')
 
     attr_reader :id
-    
+
     def initialize(attribute_hash = {}, force_load = true)
       self.class.load if force_load
       raise(StaticModel::BadOptions, "Initializing a model is done with a Hash {} given #{attribute_hash.inspect}") unless attribute_hash.is_a?(Hash)
@@ -17,7 +17,7 @@ module StaticModel
     end
 
     def to_s
-      self.inspect
+      "<#{self.class} #{@attributes.inspect}>"
     end
 
     def self.attribute(name, options = {})
@@ -27,24 +27,24 @@ module StaticModel
       }.merge(options)
       @defined_attributes ||= {}
       @defined_attributes[name.to_s] = options
-      
+
       module_eval <<-EOT
         def #{name}
           @attributes['#{name}'] || #{options[:default].inspect}
         end
-        
+
         def #{name}=(value)
           if !#{options[:freeze].inspect}
             @attributes['#{name}'] = value
           end
         end
-        
+
         def #{name}?
           !!#{name}
         end
       EOT
     end
-    
+
     def self.defined_attributes
       @defined_attributes || {}
     end
@@ -60,7 +60,7 @@ module StaticModel
     def attribute_names
       (attributes.keys | self.class.class_attributes.keys | self.class.defined_attributes.keys).collect {|k| k.to_s }
     end
-    
+
     def has_attribute?(name)
       name.to_s == 'id' || attribute_names.include?(name.to_s)
     end
@@ -95,7 +95,7 @@ module StaticModel
         records[0]
       end
       alias_method :first, :find_first
-      
+
       def find_last
         records[records.length-1]
       end
@@ -109,7 +109,7 @@ module StaticModel
         records.find {|r| r.has_attribute?(attribute) ? (r.send(attribute) == value) : false }
       end
       alias_method :find_by, :find_first_by
-      
+
       def find_last_by(attribute, value)
         records.reverse.find {|r| r.has_attribute?(attribute) ? (r.send(attribute) == value) : false }
       end
@@ -134,7 +134,7 @@ module StaticModel
         @records = records && !records.empty? ? records.dup.collect {|r| new(r, false) } : []
         @loaded = true
       end
-      
+
       def reload!
         load(true)
       end
@@ -154,29 +154,29 @@ module StaticModel
         @loaded = false
         @records = nil
       end
-    
+
       def count
         records.length
       end
-      
+
       def class_attributes
         load
         @class_attributes ||= {}
       end
-      
+
       def class_attribute(name)
         class_attributes[name]
       end
-      
+
       def records
         load
         @records
       end
-      
+
       def next_id
         last_id + 1
       end
-      
+
       def last_id
         @last_id ||= 0
       end
@@ -184,12 +184,12 @@ module StaticModel
       def last_id=(new_last_id)
         @last_id = new_last_id if new_last_id > self.last_id
       end
-            
+
       protected
       def default_data_file_path
         File.join(@@load_path, "#{self.to_s.tableize}.yml")
       end
-      
+
       private
       def method_missing(meth, *args)
         meth_name = meth.to_s
@@ -202,13 +202,13 @@ module StaticModel
         end
         super
       end
-    end  
+    end
 
     protected
     def set_attribute(name, value)
       self.attributes[name] = value
     end
-    
+
     def get_attribute(name)
       attributes.has_key?(name) ? attributes[name] : self.class.class_attribute(name)
     end
@@ -227,6 +227,6 @@ module StaticModel
       end
       super
     end
-    
+
   end
 end

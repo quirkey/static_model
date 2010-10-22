@@ -3,11 +3,11 @@ require 'rubygems'
 require 'shoulda'
 require 'mocha'
 
-require File.dirname(__FILE__) + '/../lib/static_model'
+require File.expand_path(File.join(File.dirname(__FILE__), '../lib/static_model'))
 
 class Book < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'data', 'books.yml')
-  
+
   attribute :rating, :default => 3
   attribute :read, :default => false, :freeze => true
 end
@@ -26,7 +26,7 @@ end
 
 class Publisher < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'data', 'publishers.yml')
-  
+
   has_many :authors
 end
 
@@ -39,12 +39,12 @@ end
 
 class Page < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'data', 'pages.yml')
-  
+
 end
-  
+
 class Store < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'data', 'stores.yml')
-  
+
 end
 
 class Project < StaticModel::Base
@@ -53,7 +53,7 @@ class Project < StaticModel::Base
 end
 
 class Test::Unit::TestCase
-  
+
   def assert_all(collection)
     collection.each do |one|
       assert yield(one), "#{one} is not true"
@@ -82,7 +82,7 @@ class Test::Unit::TestCase
       i += 1
     end
   end
-  
+
   def assert_set_of(klass, set)
     assert set.respond_to?(:each), "#{set} is not a set (does not include Enumerable)"
     assert_all(set) {|a| a.is_a?(klass) }

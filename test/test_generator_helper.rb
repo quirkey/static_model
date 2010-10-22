@@ -1,8 +1,4 @@
-begin
-  require File.dirname(__FILE__) + '/test_helper'
-rescue LoadError
-  require 'test/unit'
-end
+require 'test_helper'
 require 'fileutils'
 
 # Must set before requiring generator libs.
