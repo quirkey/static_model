@@ -1,3 +1,9 @@
+begin
+  require 'rubigen'
+rescue => LoadError
+  warn "Please install rubigen"
+end
+
 class StaticModelGenerator < RubiGen::Base
 
   default_options :author => nil
@@ -29,15 +35,15 @@ Creates a ...
 USAGE: #{$0} #{spec.name} ModelName
 EOS
     end
-    
+
     def class_name
       @name.classify
     end
-    
+
     def table_name
       @name.tableize
     end
-    
+
     def add_options!(opts)
       # opts.separator ''
       # opts.separator 'Options:'

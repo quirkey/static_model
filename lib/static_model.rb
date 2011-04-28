@@ -8,7 +8,7 @@ gem 'activesupport', '~>2.3.8'
 require 'active_support'
 
 module StaticModel
-  VERSION = '0.3.1'
+  VERSION = '0.3.2'
 end
 
 require 'static_model/errors'

@@ -14,7 +14,7 @@ module StaticModel
       def has_many(association_name, options = {})
         self.associations[association_name.to_sym] = HasManyAssociation.new(self, association_name.to_sym, {:foreign_key => "#{self.to_s.foreign_key}"}.merge(options))
       end
-      
+
       def belongs_to(association_name, options = {})
         self.associations[association_name.to_sym] = BelongsToAssociation.new(self, association_name.to_sym, {:foreign_key => "#{association_name.to_s.foreign_key}"}.merge(options))
       end
@@ -33,10 +33,10 @@ module StaticModel
         @foreign_key = @options[:foreign_key]
         define_association_methods
       end
-      
+
       def reflection_klass
         Object.const_get(@reflection_klass_name)
-      rescue 
+      rescue
         eval <<-EOT
           class #{@reflection_klass_name}; end;
           #{@reflection_klass_name}
@@ -68,7 +68,7 @@ module StaticModel
     end
 
     class BelongsToAssociation < Association
-      
+
       def define_association_methods
         klass.module_eval <<-EOT
           def #{name}
