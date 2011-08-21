@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Aaron Quint"]
   s.date = %q{2009-12-03}
   s.description = %q{StaticModel provides a Base class much like ActiveRecord which supports reading from a YAML file and basic associations to ActiveRecord}
-  s.email = %q{aaron at quirkey dot com}
+  s.email = %q{aaron@quirkey.com}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
