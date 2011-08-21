@@ -1,3 +1,9 @@
+== 1.0.0 2011-08-20
+
+* Remove ActiveSupport as a dependency (StaticModel has no direct dependencies now)
+* Fix Rails 3 compatability, you might need to explicitly set your load path
+  with StaticModel::Base.load_path=
+
 == 0.3.1 2010-10-22
 
 * Ruby 1.9.2 Compatibility fixes
