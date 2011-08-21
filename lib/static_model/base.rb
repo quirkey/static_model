@@ -4,7 +4,13 @@ module StaticModel
     include StaticModel::ActiveRecord
     include StaticModel::Comparable
 
-    @@load_path = File.join('config', 'data')
+    def self.load_path
+      @@load_path ||= File.join('config', 'data')
+    end
+
+    def self.load_path=(path)
+      @@load_path = path
+    end
 
     attr_reader :id
 
@@ -187,7 +193,7 @@ module StaticModel
 
       protected
       def default_data_file_path
-        File.join(@@load_path, "#{self.to_s.tableize}.yml")
+        File.join(self.class.load_path, "#{self.to_s.tableize}.yml")
       end
 
       private
