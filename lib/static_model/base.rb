@@ -56,7 +56,7 @@ module StaticModel
     end
 
     def attributes
-      @attributes ||= HashWithIndifferentAccess.new
+      @attributes ||= Hash.new
     end
 
     def attributes=(attribute_hash)
@@ -132,7 +132,8 @@ module StaticModel
         records = []
         if data.is_a?(Hash) && data.has_key?('records')
           records = data.delete('records')
-          @class_attributes = HashWithIndifferentAccess.new(data)
+          @class_attributes = Hash.new(data)
+          @class_attributes.make_indifferent! if @class_attributes.respond_to?(:make_indifferent!)
         elsif data.is_a?(Array)
           records = data
         end
