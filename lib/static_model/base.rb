@@ -56,7 +56,7 @@ module StaticModel
     end
 
     def attributes
-      @attributes ||= Hash.new
+      @attributes ||= {}
     end
 
     def attributes=(attribute_hash)
@@ -132,7 +132,7 @@ module StaticModel
         records = []
         if data.is_a?(Hash) && data.has_key?('records')
           records = data.delete('records')
-          @class_attributes = Hash.new(data)
+          @class_attributes = data
           @class_attributes.make_indifferent! if @class_attributes.respond_to?(:make_indifferent!)
         elsif data.is_a?(Array)
           records = data
@@ -213,7 +213,7 @@ module StaticModel
 
     protected
     def set_attribute(name, value)
-      self.attributes[name] = value
+      self.attributes[name.to_s] = value
     end
 
     def get_attribute(name)
