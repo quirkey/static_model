@@ -194,7 +194,7 @@ module StaticModel
 
       protected
       def default_data_file_path
-        File.join(self.class.load_path, "#{self.to_s.tableize}.yml")
+        File.join(self.load_path, "#{self.to_s.tableize}.yml")
       end
 
       private
