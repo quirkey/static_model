@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{static_model}
-  s.version = "1.0.2"
+  s.name = "static_model"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Quint"]
-  s.date = %q{2009-12-03}
-  s.description = %q{StaticModel provides a Base class much like ActiveRecord which supports reading from a YAML file and basic associations to ActiveRecord}
-  s.email = %q{aaron@quirkey.com}
+  s.date = "2009-12-03"
+  s.description = "StaticModel provides a Base class much like ActiveRecord which supports reading from a YAML file and basic associations to ActiveRecord"
+  s.email = "aaron@quirkey.com"
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
@@ -34,7 +34,6 @@ Gem::Specification.new do |s|
     "lib/static_model/errors.rb",
     "lib/static_model/rails.rb",
     "lib/static_model/scope.rb",
-    "lib/static_model/version.rb",
     "static_model.gemspec",
     "test/data/authors.yml",
     "test/data/books.yml",
@@ -50,11 +49,11 @@ Gem::Specification.new do |s|
     "test/test_static_model_generator.rb",
     "test/test_static_model_scope.rb"
   ]
-  s.homepage = %q{http://github.com/quirkey/static_model}
+  s.homepage = "http://github.com/quirkey/static_model"
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{quirkey}
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{ActiveRecord like functionalities for reading from YAML with a simple class implementation}
+  s.rubyforge_project = "quirkey"
+  s.rubygems_version = "1.8.23"
+  s.summary = "ActiveRecord like functionalities for reading from YAML with a simple class implementation"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
