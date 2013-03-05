@@ -209,6 +209,15 @@ module StaticModel
         end
         super
       end
+
+      def respond_to_missing?(meth, *args)
+        meth_name = meth.to_s
+        if meth_name =~ /^find_(all_by|first_by|last_by|by)_(.+)/
+          attribute_name = meth_name.gsub(/^find_(all_by|first_by|last_by|by)_/, '')
+          return true if has_attribute?(attribute_name)
+        end
+        class_attributes.has_key?(meth_name) || super
+      end
     end
 
     protected
@@ -233,6 +242,11 @@ module StaticModel
         end
       end
       super
+    end
+
+    def respond_to_missing?(meth, *args)
+      attribute_name = meth.to_s.gsub(/=$/,'')
+      has_attribute?(attribute_name) || super
     end
 
   end
