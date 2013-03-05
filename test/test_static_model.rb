@@ -87,6 +87,30 @@ class TestStaticModel < Test::Unit::TestCase
           end
         end
 
+        context "respond_to?" do
+          context 'with attributes explicitly set' do
+            setup do
+              @book = Book[1]
+            end
+
+            should 'respond_to? attribute methods' do
+              assert @book.respond_to?(:rating)
+              assert @book.respond_to?(:rating=)
+            end
+          end
+
+          context 'with attributes inferred from data file' do
+            setup do
+              @book = BookWithInferredAttributes[1]
+            end
+
+            should 'respond_to? attribute methods' do
+              assert @book.respond_to?(:rating)
+              assert @book.respond_to?(:rating=)
+            end
+          end
+        end
+
       end
 
       context "on the class" do
