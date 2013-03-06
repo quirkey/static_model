@@ -12,6 +12,10 @@ class Book < StaticModel::Base
   attribute :read, :default => false, :freeze => true
 end
 
+class BookWithInferredAttributes < StaticModel::Base
+  set_data_file File.join(File.dirname(__FILE__), 'data', 'books.yml')
+end
+
 unless defined?(ActiveRecord::Base)
   module ActiveRecord
     class Base
