@@ -1,9 +1,11 @@
-require 'test/unit'
-require 'rubygems'
-require 'shoulda'
-require 'mocha'
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
 
-require File.expand_path(File.join(File.dirname(__FILE__), '../lib/static_model'))
+require "rubygems"
+require "minitest/autorun"
+require "mocha/test_unit"
+require "shoulda-context"
+
+require "static_model"
 
 class Book < StaticModel::Base
   set_data_file File.join(File.dirname(__FILE__), 'data', 'books.yml')
@@ -56,14 +58,13 @@ class Project < StaticModel::Base
   belongs_to :author
 end
 
-class Test::Unit::TestCase
+class Minitest::Test
 
   def assert_all(collection)
     collection.each do |one|
       assert yield(one), "#{one} is not true"
     end
   end
-
 
   def assert_any(collection, &block)
     has = collection.any? do |one|

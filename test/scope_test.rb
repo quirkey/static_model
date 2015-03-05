@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class TestStaticModelScope < Test::Unit::TestCase
+class StaticModel::ScopeTest < Minitest::Test
 
   # context "a static model class" do
   #   context "A class with scope" do

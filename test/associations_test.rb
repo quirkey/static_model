@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class TestStaticModelAssociations < Test::Unit::TestCase
+class StaticModel::AssociationsTest < Minitest::Test
 
   context "a static model class" do
 
