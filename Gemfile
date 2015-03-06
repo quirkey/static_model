@@ -1,3 +1,4 @@
+source "https://rubygems.org"
 group :development do
   gem "jeweler"
   gem "appraisal", "~>1.0", ">= 1.0.2"

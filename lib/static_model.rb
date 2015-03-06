@@ -5,7 +5,7 @@ require 'yaml' unless defined?(YAML)
 require 'erb'  unless defined?(ERB)
 
 module StaticModel
-  VERSION = '1.0.4'
+  VERSION = '1.1.0'
 end
 
 require 'static_model/active_support'
