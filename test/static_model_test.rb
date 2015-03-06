@@ -1,6 +1,6 @@
-require 'test_helper'
+require "helper"
 
-class TestStaticModel < Test::Unit::TestCase
+class StaticModelTest < Minitest::Test
 
   context "StaticModel" do
     context "A class that inherits from Base" do
@@ -17,7 +17,7 @@ class TestStaticModel < Test::Unit::TestCase
           end
 
           should "raise error if passed anything but hash" do
-            assert_raise(StaticModel::BadOptions) do
+            assert_raises(StaticModel::BadOptions) do
               Book.new("im bad")
             end
           end
@@ -79,11 +79,11 @@ class TestStaticModel < Test::Unit::TestCase
           end
 
           should "not be equal to an instance with the same class with different ids" do
-            assert_not_equal Book[1], @book
+            refute_equal Book[1], @book
           end
 
           should "not be equal to an instance with different classes and the same ids" do
-            assert_not_equal Book[1], Author[1]
+            refute_equal Book[1], Author[1]
           end
         end
 
@@ -209,7 +209,7 @@ class TestStaticModel < Test::Unit::TestCase
           end
 
           should "evaluate erb expressions at load time" do
-            assert_equal 1.day.ago.strftime('%m/%d/%Y %I:%M%p'), @projects.first.created_at
+            assert_equal "Thu, 05 Feb 2015 00:32:43 UTC +00:00", @projects.first.created_at.to_s
           end
 
           should "evaluate erb in current context" do
@@ -237,7 +237,7 @@ class TestStaticModel < Test::Unit::TestCase
             end
 
             should "raise error if cant find record with id" do
-              assert_raise(StaticModel::RecordNotFound) do
+              assert_raises(StaticModel::RecordNotFound) do
                 @book = Book.find(1000)
               end
             end

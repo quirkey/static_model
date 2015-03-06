@@ -1,6 +1,6 @@
-require 'test_helper'
+require "generator_helper"
 
-class TestStaticModelGenerator < Test::Unit::TestCase
+class StaticModel::GeneratorTest < Minitest::Test
   include RubiGen::GeneratorTestHelper
 
   def setup

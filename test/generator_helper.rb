@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'fileutils'
+require "helper"
+require "fileutils"
 
 # Must set before requiring generator libs.
 TMP_ROOT = File.dirname(__FILE__) + "/tmp" unless defined?(TMP_ROOT)

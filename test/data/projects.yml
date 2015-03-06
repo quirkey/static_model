@@ -1,7 +1,7 @@
 ---
 - id: 1
   name: My Project
-  created_at: <%= 1.day.ago.strftime('%m/%d/%Y %I:%M%p') %>
+  created_at: Thu, 05 Feb 2015 00:32:43 UTC +00:00
 - id: 2
   name: Someone Elses Project
-  author_id: <%= Author.first.id %>
+  author_id: 1
